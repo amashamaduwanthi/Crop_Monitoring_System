@@ -14,7 +14,7 @@ import java.util.List;
 public class FieldDTO implements FieldStatus {
     private String field_code;
     private String field_name;
-    private Point location;
+    private String location;
     private Double extent_size;
     private String field_image1;
     private String field_image2;
