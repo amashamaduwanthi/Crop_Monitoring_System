@@ -1,17 +1,19 @@
 package com.example.Crop_Monitoring_system.Controller;
 
 import com.example.Crop_Monitoring_system.Exception.DataPersistException;
+import com.example.Crop_Monitoring_system.Exception.FieldNotFoundException;
 import com.example.Crop_Monitoring_system.Service.FieldService;
+import com.example.Crop_Monitoring_system.customerStatusCode.SelectedErrorStatus;
+import com.example.Crop_Monitoring_system.dto.FieldStatus;
 import com.example.Crop_Monitoring_system.dto.impl.CropDTO;
 import com.example.Crop_Monitoring_system.dto.impl.FieldDTO;
 import com.example.Crop_Monitoring_system.dto.impl.StaffDTO;
 import com.example.Crop_Monitoring_system.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,12 +33,11 @@ public class FieldController {
             @RequestPart("fieldImage_02") String fieldImage_02,
             @RequestPart("crop") List<CropDTO>crop,
             @RequestPart("staff") List<StaffDTO> staff
-            )
-    {
-        String base64field_image_01="";
-        String base64field_image_02="";
+            ) {
+        String base64field_image_01 = "";
+        String base64field_image_02 = "";
 
-        try{
+        try {
 
             byte[] bytesFieldImage1 = fieldImage_01.getBytes();
             base64field_image_01 = AppUtil.fieldImageToBase64(bytesFieldImage1);
@@ -56,13 +57,53 @@ public class FieldController {
 
             fieldService.saveField(fieldDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }catch (DataPersistException e){
+        } catch (DataPersistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+        @GetMapping(value = "/{fieldCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+        public FieldStatus getSelectedField(@PathVariable("fieldCode") String fieldCode) {
+
+        return fieldService.getField(fieldCode);
+    }
+        @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+        public List<FieldDTO> getAllFields() {
+        return fieldService.getAllFields();
+    }
+        @DeleteMapping(value = "/{fieldCode}")
+        public ResponseEntity<Void> deleteField(@PathVariable("fieldCode") String fieldCode) {
+        try {
+
+            fieldService.deleteField(fieldCode);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (FieldNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
+        @PutMapping(value = "/{fieldCode}")
+        public ResponseEntity<Void> updateField(@PathVariable ("fieldCode") String fieldCode,
+            @RequestBody FieldDTO fieldDTO) {
+
+            try {
+
+                fieldService.updateField(fieldCode, fieldDTO);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } catch (FieldNotFoundException e) {
+                e.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
 }

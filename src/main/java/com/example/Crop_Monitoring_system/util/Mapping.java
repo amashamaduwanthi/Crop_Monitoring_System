@@ -24,6 +24,9 @@ public class Mapping {
     public List<CropDTO> toCropDTOList(List<CropEntity> cropEntitiesList) {
         return modelMapper.map(cropEntitiesList,new TypeToken<List<CropDTO>>() {}.getType());
     }
+    public List<CropEntity> toCropEntityList(List<CropDTO> cropDTOList) {
+        return modelMapper.map(cropDTOList,new TypeToken<List<CropEntity>>() {}.getType());
+    }
 
     //for equipment mapping
     public EquipmentEntity toEquipmentEntity(EquipmentDTO equipmentDTO) {
@@ -75,7 +78,9 @@ public class Mapping {
     public List<StaffDTO> toStaffDTOList(List<StaffEntity> staffEntitiesList) {
         return modelMapper.map(staffEntitiesList,new TypeToken<List<StaffDTO>>() {}.getType());
     }
-
+    public List<StaffEntity> toStaffEntityList(List<StaffDTO> staffDTOList) {
+        return modelMapper.map(staffDTOList,new TypeToken<List<StaffEntity>>() {}.getType());
+    }
     //for user mapping
     public UserEntity toUserEntity(UserDTO userDTO) {
         return modelMapper.map(userDTO, UserEntity.class);
