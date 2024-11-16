@@ -52,6 +52,10 @@ public class Mapping {
     public List<FieldDTO> toFieldDTOList(List<FieldEntity> fieldEntitiesList) {
         return modelMapper.map(fieldEntitiesList,new TypeToken<List<FieldDTO>>() {}.getType());
     }
+    public List<FieldEntity> toFieldEntityList(List<FieldDTO> fieldDTOList) {
+        return modelMapper.map(fieldDTOList,new TypeToken<List<FieldEntity>>() {}.getType());
+    }
+
 
     //for log mapping
     public MonitoringLogEntity toMonitoringLogEntity(MonitoringLogDTO monitoringLogDTO) {
@@ -105,5 +109,8 @@ public class Mapping {
 
     public List<VehicleDTO> toVehicleDTOList(List<VehicleEntity> vehicleEntitiesList) {
         return modelMapper.map(vehicleEntitiesList,new TypeToken<List<VehicleDTO>>() {}.getType());
+    }
+    public List<VehicleEntity> toVehicleEntityList(List<VehicleDTO> vehicleDTOList){
+        return modelMapper.map(vehicleDTOList,new TypeToken<List<VehicleEntity>>() {}.getType());
     }
 }
