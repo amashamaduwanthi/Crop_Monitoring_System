@@ -1,6 +1,7 @@
 package com.example.Crop_Monitoring_system.Service.impl;
 
 import com.example.Crop_Monitoring_system.Exception.DataPersistException;
+import com.example.Crop_Monitoring_system.Exception.MonitoringLogNotFoundException;
 import com.example.Crop_Monitoring_system.Service.MonitoringLogService;
 import com.example.Crop_Monitoring_system.customerStatusCode.SelectedErrorStatus;
 import com.example.Crop_Monitoring_system.dao.MonitoringLogDao;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Service
@@ -45,6 +47,16 @@ public class MonitoringLogServiceImpl implements MonitoringLogService {
             return mapping.toMonitoringLogDTO(selectedLog);
         }else{
             return new SelectedErrorStatus(2,"Selected Log not found");
+        }
+    }
+
+    @Override
+    public void deleteLog(String logCode) {
+        Optional<MonitoringLogEntity> foundById = monitoringLogDao.findById(logCode);
+        if(foundById.isPresent()){
+            throw new MonitoringLogNotFoundException("Log not Found");
+        }else {
+            monitoringLogDao.deleteById(logCode);
         }
     }
 }

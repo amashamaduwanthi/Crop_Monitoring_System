@@ -1,6 +1,7 @@
 package com.example.Crop_Monitoring_system.Controller;
 
 import com.example.Crop_Monitoring_system.Exception.DataPersistException;
+import com.example.Crop_Monitoring_system.Exception.MonitoringLogNotFoundException;
 import com.example.Crop_Monitoring_system.Service.MonitoringLogService;
 import com.example.Crop_Monitoring_system.dto.MonitoringLogStatus;
 import com.example.Crop_Monitoring_system.dto.impl.CropDTO;
@@ -63,5 +64,18 @@ public class MonitoringLogController {
     @GetMapping(value =" /{logCode}",produces = MediaType.APPLICATION_JSON_VALUE)
     public MonitoringLogStatus getSelectedLogId(@PathVariable ("logCode") String logCode){
         return monitoringLogService.getSelectedLogId(logCode);
+    }
+    public ResponseEntity<Void> deleteLog(@PathVariable("logCode") String logCode){
+        try {
+            monitoringLogService.deleteLog(logCode);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch(MonitoringLogNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 }
