@@ -21,5 +21,11 @@ public class AppUtil {
     public static String generateStaffId(){
         return "STAFF-" + UUID.randomUUID();
     }
+    public static String generateMonitoringId(){
+        return "LOG-" + UUID.randomUUID();
+    }
+    public static String observedImageOneToBase64(byte [] observedImage){
+        return Base64.getEncoder().encodeToString(observedImage);
+    }
 
 }
