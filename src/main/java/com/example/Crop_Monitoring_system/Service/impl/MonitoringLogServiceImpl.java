@@ -7,7 +7,10 @@ import com.example.Crop_Monitoring_system.customerStatusCode.SelectedErrorStatus
 import com.example.Crop_Monitoring_system.dao.MonitoringLogDao;
 import com.example.Crop_Monitoring_system.dto.MonitoringLogStatus;
 import com.example.Crop_Monitoring_system.dto.impl.MonitoringLogDTO;
+import com.example.Crop_Monitoring_system.entity.impl.CropEntity;
+import com.example.Crop_Monitoring_system.entity.impl.FieldEntity;
 import com.example.Crop_Monitoring_system.entity.impl.MonitoringLogEntity;
+import com.example.Crop_Monitoring_system.entity.impl.StaffEntity;
 import com.example.Crop_Monitoring_system.util.AppUtil;
 import com.example.Crop_Monitoring_system.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +60,24 @@ public class MonitoringLogServiceImpl implements MonitoringLogService {
             throw new MonitoringLogNotFoundException("Log not Found");
         }else {
             monitoringLogDao.deleteById(logCode);
+        }
+    }
+
+    @Override
+    public void updateLog(String logCode, MonitoringLogDTO monitoringLogDTO) {
+        Optional<MonitoringLogEntity> byId = monitoringLogDao.findById(logCode);
+        if(byId.isPresent()){
+            throw new MonitoringLogNotFoundException("Log not found");
+        }else {
+            byId.get().setLog_date(monitoringLogDTO.getLog_date());
+            byId.get().setLog_details(monitoringLogDTO.getLog_details());
+            byId.get().setObserved_image(monitoringLogDTO.getObserved_image());
+            List<FieldEntity>fieldEntityList=mapping.toFieldEntityList(monitoringLogDTO.getFields());
+            byId.get().setFields(fieldEntityList);
+            List<CropEntity>cropEntityList=mapping.toCropEntityList(monitoringLogDTO.getCrops());
+            byId.get().setCrops(cropEntityList);
+            List<StaffEntity>staffEntityList=mapping.toStaffEntityList(monitoringLogDTO.getStaff());
+            byId.get().setStaff(staffEntityList);
         }
     }
 }

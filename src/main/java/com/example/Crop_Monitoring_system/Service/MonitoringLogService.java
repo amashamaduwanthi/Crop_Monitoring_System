@@ -13,4 +13,6 @@ public interface MonitoringLogService {
     MonitoringLogStatus getSelectedLogId(String logCode);
 
     void deleteLog(String logCode);
+
+    void updateLog(String logCode, MonitoringLogDTO monitoringLogDTO);
 }
