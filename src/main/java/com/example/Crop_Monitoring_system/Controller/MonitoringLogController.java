@@ -2,6 +2,7 @@ package com.example.Crop_Monitoring_system.Controller;
 
 import com.example.Crop_Monitoring_system.Exception.DataPersistException;
 import com.example.Crop_Monitoring_system.Service.MonitoringLogService;
+import com.example.Crop_Monitoring_system.dto.MonitoringLogStatus;
 import com.example.Crop_Monitoring_system.dto.impl.CropDTO;
 import com.example.Crop_Monitoring_system.dto.impl.FieldDTO;
 import com.example.Crop_Monitoring_system.dto.impl.MonitoringLogDTO;
@@ -58,5 +59,9 @@ public class MonitoringLogController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MonitoringLogDTO> getAllLogs(){
      return monitoringLogService.getAllLogs();
+    }
+    @GetMapping(value =" /{logCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public MonitoringLogStatus getSelectedLogId(@PathVariable ("logCode") String logCode){
+        return monitoringLogService.getSelectedLogId(logCode);
     }
 }

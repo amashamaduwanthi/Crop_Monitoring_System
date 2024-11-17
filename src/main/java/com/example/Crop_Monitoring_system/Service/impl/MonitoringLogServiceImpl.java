@@ -2,7 +2,9 @@ package com.example.Crop_Monitoring_system.Service.impl;
 
 import com.example.Crop_Monitoring_system.Exception.DataPersistException;
 import com.example.Crop_Monitoring_system.Service.MonitoringLogService;
+import com.example.Crop_Monitoring_system.customerStatusCode.SelectedErrorStatus;
 import com.example.Crop_Monitoring_system.dao.MonitoringLogDao;
+import com.example.Crop_Monitoring_system.dto.MonitoringLogStatus;
 import com.example.Crop_Monitoring_system.dto.impl.MonitoringLogDTO;
 import com.example.Crop_Monitoring_system.entity.impl.MonitoringLogEntity;
 import com.example.Crop_Monitoring_system.util.AppUtil;
@@ -34,5 +36,15 @@ public class MonitoringLogServiceImpl implements MonitoringLogService {
     @Override
     public List<MonitoringLogDTO> getAllLogs() {
        return mapping.toMonitoringLogDTOList(monitoringLogDao.findAll());
+    }
+
+    @Override
+    public MonitoringLogStatus getSelectedLogId(String logCode) {
+        if(monitoringLogDao.existsById(logCode)){
+            var selectedLog = monitoringLogDao.getReferenceById(logCode);
+            return mapping.toMonitoringLogDTO(selectedLog);
+        }else{
+            return new SelectedErrorStatus(2,"Selected Log not found");
+        }
     }
 }
