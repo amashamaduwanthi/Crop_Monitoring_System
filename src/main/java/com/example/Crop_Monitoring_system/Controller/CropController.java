@@ -19,17 +19,22 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/crop")
+@CrossOrigin(origins = "http://localhost:63342")
 public class CropController {
     @Autowired
     private CropService cropService;
+
+
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveField(
             @RequestPart("cropCode") String cropCode,
             @RequestPart("commonName") String commonName,
             @RequestPart("scienceName") String scienceName,
             @RequestPart("category") String category,
             @RequestPart("season") String season,
-            @RequestPart("cropImage") String cropImage,
-            @RequestPart("field") FieldDTO field
+            @RequestPart("cropImage") String cropImage
+            //@RequestPart("field") FieldDTO field
     )
     {
         String base64Crop_image="";
@@ -44,7 +49,7 @@ public class CropController {
             cropDTO.setCategory(category);
             cropDTO.setSeason(season);
             cropDTO.setCrop_image(base64Crop_image);
-            cropDTO.setField(field);
+          //  cropDTO.setField(field);
 
             cropService.saveCrop(cropDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
