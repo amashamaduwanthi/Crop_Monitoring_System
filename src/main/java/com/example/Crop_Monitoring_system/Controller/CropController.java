@@ -70,7 +70,7 @@ public class CropController {
     public List<CropDTO> getAllCrops(){
         return cropService.getAllCrops();
     }
-    @DeleteMapping(value = "/{cropCode}")
+    @DeleteMapping(value = "/{crop_code}")
     public ResponseEntity<Void> deleteCrop(@PathVariable("crop_code") String crop_code){
         try {
 

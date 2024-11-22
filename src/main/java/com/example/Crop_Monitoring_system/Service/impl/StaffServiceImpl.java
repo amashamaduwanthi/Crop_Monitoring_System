@@ -27,7 +27,7 @@ public class StaffServiceImpl implements StaffService {
     private Mapping mapping;
     @Override
     public void saveStaff(StaffDTO staffDTO) {
-        staffDTO.setId(AppUtil.generateStaffId());
+
         StaffEntity staffEntity = staffDao.save(mapping.toStaffEntity(staffDTO));
         if(staffEntity == null) {
             throw new StaffNotFoundException("Staff Member Not Found");

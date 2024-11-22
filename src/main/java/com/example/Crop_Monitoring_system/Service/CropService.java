@@ -12,7 +12,7 @@ public interface CropService{
 
     CropStatus getCrop(String cropCode);
 
-    void deleteCrop(String cropCode);
+    void deleteCrop(String crop_code);
 
     void updateCrop(String cropCode,CropDTO cropDTO);
 }
