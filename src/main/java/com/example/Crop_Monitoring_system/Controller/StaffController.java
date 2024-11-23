@@ -35,6 +35,17 @@ public class StaffController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping
+    public ResponseEntity<List<StaffDTO>> getAllStaffId() {
+        try {
+            List<StaffDTO> staffList = staffService.getAllStaff();
+            return new ResponseEntity<>(staffList, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @GetMapping(value="/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public StaffStatus getSelectedStaff(@PathVariable ("id") String id){
         return staffService.getStaff(id);

@@ -14,37 +14,35 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/field")
+@CrossOrigin(origins = "http://localhost:63342")
 public class FieldController {
 
     @Autowired
     private FieldService fieldService;
 
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveField(
             @RequestPart("fieldCode") String fieldCode,
             @RequestPart("fieldName") String fieldName,
             @RequestPart("extentSize") Double extentSize,
             @RequestPart("location") String location,
-            @RequestPart("fieldImage_01") String fieldImage_01,
-            @RequestPart("fieldImage_02") String fieldImage_02,
-            @RequestPart("crop") List<CropDTO>crop,
-            @RequestPart("staff") List<StaffDTO> staff
-            ) {
-        String base64field_image_01 = "";
-        String base64field_image_02 = "";
-
+            @RequestPart("fieldImage_01") MultipartFile fieldImage_01,
+            @RequestPart("fieldImage_02") MultipartFile fieldImage_02
+//            @RequestPart("crop") List<CropDTO> crop,
+//            @RequestPart("staff") List<StaffDTO> staff
+    ) {
         try {
+            // Convert images to Base64 strings
+            String base64field_image_01 = AppUtil.fieldImageToBase64(fieldImage_01.getBytes());
+            String base64field_image_02 = AppUtil.fieldImageToBase64(fieldImage_02.getBytes());
 
-            byte[] bytesFieldImage1 = fieldImage_01.getBytes();
-            base64field_image_01 = AppUtil.fieldImageToBase64(bytesFieldImage1);
-
-            byte[] bytesFieldImage2 = fieldImage_02.getBytes();
-            base64field_image_02 = AppUtil.fieldImageToBase64(bytesFieldImage2);
-
+            // Create FieldDTO and set properties
             FieldDTO fieldDTO = new FieldDTO();
             fieldDTO.setField_code(fieldCode);
             fieldDTO.setField_name(fieldName);
@@ -52,9 +50,10 @@ public class FieldController {
             fieldDTO.setLocation(location);
             fieldDTO.setField_image1(base64field_image_01);
             fieldDTO.setField_image2(base64field_image_02);
-            fieldDTO.setCrops(crop);
-            fieldDTO.setAllocated_staff(staff);
+//            fieldDTO.setCrops(crop);
+//            fieldDTO.setAllocated_staff(staff);
 
+            // Save field
             fieldService.saveField(fieldDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (DataPersistException e) {
@@ -65,6 +64,9 @@ public class FieldController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+
         @GetMapping(value = "/{fieldCode}", produces = MediaType.APPLICATION_JSON_VALUE)
         public FieldStatus getSelectedField(@PathVariable("fieldCode") String fieldCode) {
 

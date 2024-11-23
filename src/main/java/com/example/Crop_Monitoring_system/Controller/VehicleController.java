@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/vehicle")
+@CrossOrigin(origins = "http://localhost:63342")
 public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
@@ -32,6 +33,7 @@ public ResponseEntity<Void> saveVehicle(@RequestBody VehicleDTO vehicleDTO){
     }
 
 }
+
     @GetMapping(value = "/{vehicleCode}", produces = MediaType.APPLICATION_JSON_VALUE)
     public VehicleStatus getSelectedVehicle(@PathVariable ("vehicleCode") String vehicleCode) {
 

@@ -52,7 +52,7 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public void deleteStaff(String id) {
         Optional<StaffEntity> foundStaff = staffDao.findById(id);
-        if(foundStaff.isPresent()) {
+        if(!foundStaff.isPresent()) {
             throw new StaffNotFoundException("Staff Member Not Found");
         }else {
             staffDao.deleteById(id);
@@ -75,10 +75,10 @@ public class StaffServiceImpl implements StaffService {
             tmpStaff.get().setContact_no(staffDTO.getContact_no());
             tmpStaff.get().setEmail(staffDTO.getEmail());
             tmpStaff.get().setRole(staffDTO.getRole());
-            List<FieldEntity> fieldEntityList = mapping.toFieldEntityList(staffDTO.getFields());
-            tmpStaff.get().setFields(fieldEntityList);
-            List<VehicleEntity> vehicleEntityList = mapping.toVehicleEntityList(staffDTO.getVehicles());
-            tmpStaff.get().setVehicles(vehicleEntityList);
+//            List<FieldEntity> fieldEntityList = mapping.toFieldEntityList(staffDTO.getFields());
+//            tmpStaff.get().setFields(fieldEntityList);
+//            List<VehicleEntity> vehicleEntityList = mapping.toVehicleEntityList(staffDTO.getVehicles());
+//            tmpStaff.get().setVehicles(vehicleEntityList);
         }
     }
 

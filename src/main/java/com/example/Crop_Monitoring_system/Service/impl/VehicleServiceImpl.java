@@ -27,7 +27,7 @@ public class VehicleServiceImpl implements VehicleService {
     private Mapping mapping;
     @Override
     public void saveVehicle(VehicleDTO vehicleDTO) {
-        vehicleDTO.setVehicle_code(AppUtil.generateVehicleId());
+//        vehicleDTO.setVehicle_code(AppUtil.generateVehicleId());
         VehicleEntity saveVehicle = vehicleDao.save(mapping.toVehicleEntity(vehicleDTO));
         if(saveVehicle == null) {
             throw new DataPersistException("Vehicle not saved");
@@ -52,7 +52,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public void deleteVehicle(String vehicleCode) {
         Optional<VehicleEntity> foundVehicle = vehicleDao.findById(vehicleCode);
-        if(foundVehicle.isPresent()) {
+        if(!foundVehicle.isPresent()) {
             throw new VehicleNotFoundException("Vehicle Not Found");
         }else{
             vehicleDao.deleteById(vehicleCode);

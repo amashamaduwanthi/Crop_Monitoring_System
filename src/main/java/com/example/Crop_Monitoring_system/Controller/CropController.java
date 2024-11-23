@@ -61,7 +61,7 @@ public class CropController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping(value = "/{cropCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{crop_code}", produces = MediaType.APPLICATION_JSON_VALUE)
     public CropStatus getSelectedCrop(@PathVariable ("crop_code") String crop_code){
 
         return cropService.getCrop(crop_code);
