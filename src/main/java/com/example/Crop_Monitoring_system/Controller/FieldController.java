@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.util.List;
 
 @RestController
@@ -27,44 +28,48 @@ public class FieldController {
     private FieldService fieldService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> saveField(
-            @RequestPart("fieldCode") String fieldCode,
-            @RequestPart("fieldName") String fieldName,
-            @RequestPart("extentSize") Double extentSize,
-            @RequestPart("location") String location,
-            @RequestPart("fieldImage_01") MultipartFile fieldImage_01,
-            @RequestPart("fieldImage_02") MultipartFile fieldImage_02
-//            @RequestPart("crop") List<CropDTO> crop,
-//            @RequestPart("staff") List<StaffDTO> staff
+    public ResponseEntity<Void> saveField(@RequestParam ("field_name") String fieldName,
+                                          @RequestParam ("x") int x,
+                                          @RequestParam ("y") int y,
+                                          @RequestParam ("extent_size") String size,
+                                          @RequestPart ("field_image1") MultipartFile fieldImage1,
+                                          @RequestPart ("field_image2") MultipartFile fieldImage2,
+                                          @RequestPart (value = "crops[]",required = false) List<CropDTO> crops,
+                                          @RequestPart (value = "staff[]",required = false) List<StaffDTO> staff
     ) {
+        String base64FieldImage1 = "";
+        String base64FieldImage2 = "";
+        Point location = new Point(x,y);
+        double extentSize = Double.parseDouble(size);
+
         try {
-            // Convert images to Base64 strings
-            String base64field_image_01 = AppUtil.fieldImageToBase64(fieldImage_01.getBytes());
-            String base64field_image_02 = AppUtil.fieldImageToBase64(fieldImage_02.getBytes());
+            byte[] bytesFieldImage1 = fieldImage1.getBytes();
+            base64FieldImage1 = AppUtil.fieldImageOneToBase64(bytesFieldImage1);
 
-            // Create FieldDTO and set properties
-            FieldDTO fieldDTO = new FieldDTO();
-            fieldDTO.setField_code(fieldCode);
-            fieldDTO.setField_name(fieldName);
-            fieldDTO.setExtent_size(extentSize);
-            fieldDTO.setLocation(location);
-            fieldDTO.setField_image1(base64field_image_01);
-            fieldDTO.setField_image2(base64field_image_02);
-//            fieldDTO.setCrops(crop);
-//            fieldDTO.setAllocated_staff(staff);
+            byte[] bytesFieldImage2 = fieldImage2.getBytes();
+            base64FieldImage2 = AppUtil.fieldImageTwoToBase64(bytesFieldImage2);
 
-            // Save field
-            fieldService.saveField(fieldDTO);
+            String field_code = AppUtil.generateFieldId();
+
+            FieldDTO buildFieldDTO = new FieldDTO();
+            buildFieldDTO.setField_code(field_code);
+            buildFieldDTO.setField_name(fieldName);
+            buildFieldDTO.setLocation(location);
+            buildFieldDTO.setExtent_size(extentSize);
+            buildFieldDTO.setField_image1(base64FieldImage1);
+            buildFieldDTO.setField_image2(base64FieldImage2);
+            buildFieldDTO.setCrops(crops);
+            buildFieldDTO.setAllocated_staff(staff);
+            fieldService.saveField(buildFieldDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (DataPersistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
 
         @GetMapping(value = "/{fieldCode}", produces = MediaType.APPLICATION_JSON_VALUE)
