@@ -28,7 +28,8 @@ public class FieldController {
     private FieldService fieldService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> saveField(@RequestParam ("field_name") String fieldName,
+    public ResponseEntity<Void> saveField(@RequestParam ("field_code") String fieldCode,
+                                          @RequestParam ("field_name") String fieldName,
                                           @RequestParam ("x") int x,
                                           @RequestParam ("y") int y,
                                           @RequestParam ("extent_size") String size,
@@ -49,10 +50,10 @@ public class FieldController {
             byte[] bytesFieldImage2 = fieldImage2.getBytes();
             base64FieldImage2 = AppUtil.fieldImageTwoToBase64(bytesFieldImage2);
 
-            String field_code = AppUtil.generateFieldId();
+//            String field_code = AppUtil.generateFieldId();
 
             FieldDTO buildFieldDTO = new FieldDTO();
-            buildFieldDTO.setField_code(field_code);
+            buildFieldDTO.setField_code(fieldCode);
             buildFieldDTO.setField_name(fieldName);
             buildFieldDTO.setLocation(location);
             buildFieldDTO.setExtent_size(extentSize);

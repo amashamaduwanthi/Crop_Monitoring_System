@@ -27,7 +27,7 @@ public class FieldServiceImpl implements FieldService {
     private Mapping mapping;
     @Override
     public void saveField(FieldDTO fieldDTO) {
-        fieldDTO.setField_code(AppUtil.generateFieldId());
+//        fieldDTO.setField_code(AppUtil.generateFieldId());
         FieldEntity fieldEntity = fieldDao.save(mapping.toFieldEntity(fieldDTO));
         if (fieldEntity == null) {
             throw new FieldNotFoundException("Field not found");
@@ -51,7 +51,7 @@ public class FieldServiceImpl implements FieldService {
     @Override
     public void deleteField(String fieldCode) {
         Optional<FieldEntity> foundField = fieldDao.findById(fieldCode);
-        if(foundField.isPresent()){
+        if(!foundField.isPresent()){
             throw new FieldNotFoundException("Field not found");
         }else {
             fieldDao.deleteById(fieldCode);
