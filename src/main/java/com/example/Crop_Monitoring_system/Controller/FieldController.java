@@ -97,6 +97,16 @@ public class FieldController {
         }
 
     }
+    @GetMapping
+    public ResponseEntity<List<FieldDTO>> getAllFieldId() {
+        try {
+            List<FieldDTO> fieldfList = fieldService.getAllFields();
+            return new ResponseEntity<>(fieldfList, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
         @PutMapping(value = "/{fieldCode}")
         public ResponseEntity<Void> updateField(@PathVariable ("fieldCode") String fieldCode,
             @RequestBody FieldDTO fieldDTO) {
@@ -115,3 +125,5 @@ public class FieldController {
         }
 
 }
+
+
