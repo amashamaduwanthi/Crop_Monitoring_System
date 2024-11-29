@@ -72,12 +72,12 @@ public class MonitoringLogServiceImpl implements MonitoringLogService {
             byId.get().setLog_date(monitoringLogDTO.getLog_date());
             byId.get().setLog_details(monitoringLogDTO.getLog_details());
             byId.get().setObserved_image(monitoringLogDTO.getObserved_image());
-            List<FieldEntity>fieldEntityList=mapping.toFieldEntityList(monitoringLogDTO.getFields());
-            byId.get().setFields(fieldEntityList);
-            List<CropEntity>cropEntityList=mapping.toCropEntityList(monitoringLogDTO.getCrops());
-            byId.get().setCrops(cropEntityList);
-            List<StaffEntity>staffEntityList=mapping.toStaffEntityList(monitoringLogDTO.getStaff());
-            byId.get().setStaff(staffEntityList);
+//            List<FieldEntity>fieldEntityList=mapping.toFieldEntityList(monitoringLogDTO.getFields());
+//            byId.get().setFields(fieldEntityList);
+//            List<CropEntity>cropEntityList=mapping.toCropEntityList(monitoringLogDTO.getCrops());
+//            byId.get().setCrops(cropEntityList);
+//            List<StaffEntity>staffEntityList=mapping.toStaffEntityList(monitoringLogDTO.getStaff());
+//            byId.get().setStaff(staffEntityList);
         }
     }
 }

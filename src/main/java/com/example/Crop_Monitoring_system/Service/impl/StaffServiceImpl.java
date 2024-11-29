@@ -1,11 +1,13 @@
 package com.example.Crop_Monitoring_system.Service.impl;
 
+import com.example.Crop_Monitoring_system.Exception.FieldNotFoundException;
 import com.example.Crop_Monitoring_system.Exception.StaffNotFoundException;
 import com.example.Crop_Monitoring_system.Service.StaffService;
 import com.example.Crop_Monitoring_system.customerStatusCode.SelectedErrorStatus;
 import com.example.Crop_Monitoring_system.dao.StaffDao;
 import com.example.Crop_Monitoring_system.dto.StaffStatus;
 import com.example.Crop_Monitoring_system.dto.impl.StaffDTO;
+import com.example.Crop_Monitoring_system.entity.impl.CropEntity;
 import com.example.Crop_Monitoring_system.entity.impl.FieldEntity;
 import com.example.Crop_Monitoring_system.entity.impl.StaffEntity;
 import com.example.Crop_Monitoring_system.entity.impl.VehicleEntity;
@@ -82,4 +84,15 @@ public class StaffServiceImpl implements StaffService {
         }
     }
 
+//    @Override
+//    public StaffDTO getStaffByName(String id) {
+//        Optional<StaffEntity> tmpField = staffDao.findByStaffName(id);
+//        if(!tmpField.isPresent()){
+//            throw new StaffNotFoundException("Staff not found: " + id);
+//        }
+//        return mapping.toStaffDTO(tmpField.get());
+//    }
+
 }
+
+

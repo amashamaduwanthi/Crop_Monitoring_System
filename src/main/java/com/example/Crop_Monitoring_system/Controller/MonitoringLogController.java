@@ -2,7 +2,10 @@ package com.example.Crop_Monitoring_system.Controller;
 
 import com.example.Crop_Monitoring_system.Exception.DataPersistException;
 import com.example.Crop_Monitoring_system.Exception.MonitoringLogNotFoundException;
+import com.example.Crop_Monitoring_system.Service.CropService;
+import com.example.Crop_Monitoring_system.Service.FieldService;
 import com.example.Crop_Monitoring_system.Service.MonitoringLogService;
+import com.example.Crop_Monitoring_system.Service.StaffService;
 import com.example.Crop_Monitoring_system.dto.MonitoringLogStatus;
 import com.example.Crop_Monitoring_system.dto.impl.CropDTO;
 import com.example.Crop_Monitoring_system.dto.impl.FieldDTO;
@@ -21,17 +24,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/log")
+@CrossOrigin(origins = "http://localhost:63342")
 public class MonitoringLogController {
     @Autowired
     private MonitoringLogService monitoringLogService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> saveLog(@RequestPart ("logDate")String logDate,
-                                        @RequestPart ("logDetails")String logDetails,
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> saveLog(@RequestParam ("logDate")String logDate,
+                                        @RequestParam ("logDetails")String logDetails,
                                         @RequestPart ("observedImage")MultipartFile observedImage,
-                                        @RequestPart ("field")List<FieldDTO> fields,
-                                        @RequestPart ("crops") List<CropDTO> crops,
-                                        @RequestPart ("staff") List<StaffDTO> staff
+                                        @RequestPart (value = "fields[]",required = false) List<FieldDTO> fields,
+                                        @RequestPart (value = "crops[]",required = false) List<CropDTO> crops,
+                                        @RequestPart (value = "staff[]",required = false) List<StaffDTO> staff
                                         ) {
         String base64ObservedImage="";
         try{

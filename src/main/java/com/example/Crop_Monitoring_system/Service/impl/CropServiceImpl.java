@@ -2,12 +2,14 @@ package com.example.Crop_Monitoring_system.Service.impl;
 
 import com.example.Crop_Monitoring_system.Exception.CropNotFoundException;
 import com.example.Crop_Monitoring_system.Exception.DataPersistException;
+import com.example.Crop_Monitoring_system.Exception.FieldNotFoundException;
 import com.example.Crop_Monitoring_system.Service.CropService;
 import com.example.Crop_Monitoring_system.customerStatusCode.SelectedErrorStatus;
 import com.example.Crop_Monitoring_system.dao.CropDao;
 import com.example.Crop_Monitoring_system.dto.CropStatus;
 import com.example.Crop_Monitoring_system.dto.impl.CropDTO;
 import com.example.Crop_Monitoring_system.entity.impl.CropEntity;
+import com.example.Crop_Monitoring_system.entity.impl.FieldEntity;
 import com.example.Crop_Monitoring_system.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,4 +73,15 @@ public class CropServiceImpl implements CropService {
         }
 
     }
+
+//    @Override
+//    public CropDTO getCropByName(String cropCode) {
+//        Optional<CropEntity> tmpField = cropDao.findByCropName(cropCode);
+//        if(!tmpField.isPresent()){
+//            throw new CropNotFoundException("Crop not found: " + cropCode);
+//        }
+//        return mapping.toCropDTO(tmpField.get());
+//    }
+
+
 }

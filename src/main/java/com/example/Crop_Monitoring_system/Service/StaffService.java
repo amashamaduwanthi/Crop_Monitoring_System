@@ -15,4 +15,6 @@ public interface StaffService {
     void deleteStaff(String id);
 
     void updateStaff(String id,StaffDTO staffDTO);
+
+//    StaffDTO getStaffByName(String id);
 }
