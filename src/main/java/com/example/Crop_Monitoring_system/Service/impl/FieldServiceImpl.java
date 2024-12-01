@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -35,7 +37,20 @@ public class FieldServiceImpl implements FieldService {
     }
     @Override
     public List<FieldDTO> getAllFields() {
-        return mapping.toFieldDTOList(fieldDao.findAll());
+        List<FieldEntity> fields = fieldDao.findAll();
+        return fields.stream()
+                .map(field -> {
+                    FieldDTO fieldDTO = new FieldDTO();
+                    fieldDTO.setField_code(field.getField_code());
+                    fieldDTO.setField_name(field.getField_name());
+                    fieldDTO.setLocation(field.getLocation());
+                    fieldDTO.setExtent_size(field.getExtent_size());
+                    fieldDTO.setField_image1(field.getField_image1());
+                    fieldDTO.setField_image2(field.getField_image2());
+
+                    return fieldDTO;
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -77,12 +92,37 @@ public class FieldServiceImpl implements FieldService {
     }
 
     @Override
-    public FieldDTO getFieldByName(String field_code) {
-        Optional<FieldEntity> tmpField = fieldDao.findByFieldName(field_code);
+    public List<String> getAllFieldNames() {
+        List<FieldEntity> fieldEntities = fieldDao.findAll();
+        return fieldEntities.stream()
+                .map(FieldEntity::getField_name)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public FieldDTO getFieldByName(String field_name) {
+        Optional<FieldEntity> tmpField = fieldDao.findByFieldName(field_name);
         if(!tmpField.isPresent()){
-            throw new FieldNotFoundException("Field not found: " + field_code);
+            throw new FieldNotFoundException("Field not found");
         }
         return mapping.toFieldDTO(tmpField.get());
+    }
+
+    @Override
+    public List<FieldDTO> getFieldListByName(List<String> field_name) {
+        if(field_name == null || field_name.isEmpty()){
+            return Collections.emptyList();
+        }
+
+        List<FieldEntity> fieldEntities = fieldDao.findByFieldNameList(field_name);
+
+        if(fieldEntities.isEmpty()){
+            throw new FieldNotFoundException("Field not found");
+        }
+
+        return fieldEntities.stream()
+                .map(mapping::toFieldDTO)
+                .collect(Collectors.toList());
     }
 
 }

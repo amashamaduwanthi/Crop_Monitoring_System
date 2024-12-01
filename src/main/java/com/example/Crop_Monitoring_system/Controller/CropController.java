@@ -38,12 +38,12 @@ public class CropController {
             @RequestParam("category") String category,
             @RequestParam("season") String season,
             @RequestPart("cropImage") String cropImage,
-            @RequestParam("field_code") String field_code
+            @RequestParam("field_name") String field_name
     )
     {
         String base64Crop_image="";
         try {
-            FieldDTO field = fieldService.getFieldByName(field_code);
+            FieldDTO field = fieldService.getFieldByName(field_name);
             byte[] bytesCropImage = cropImage.getBytes();
             base64Crop_image = AppUtil.cropImageToBase64(bytesCropImage);
 

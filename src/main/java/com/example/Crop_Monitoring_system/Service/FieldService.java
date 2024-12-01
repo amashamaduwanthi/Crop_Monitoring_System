@@ -6,7 +6,7 @@ import com.example.Crop_Monitoring_system.dto.impl.FieldDTO;
 import java.util.List;
 
 public interface FieldService {
-    FieldDTO getFieldByName(String field_code);
+
     void saveField(FieldDTO fieldDTO);
     List<FieldDTO> getAllFields();
 
@@ -15,4 +15,11 @@ public interface FieldService {
     void deleteField(String fieldCode);
 
     void updateField(String fieldCode,FieldDTO fieldDTO);
+
+    List<String> getAllFieldNames();
+
+    FieldDTO getFieldByName(String field_name);
+
+    List<FieldDTO> getFieldListByName(List<String> field_name);
+
 }

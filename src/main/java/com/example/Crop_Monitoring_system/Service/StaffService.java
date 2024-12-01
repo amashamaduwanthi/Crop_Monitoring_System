@@ -16,5 +16,10 @@ public interface StaffService {
 
     void updateStaff(String id,StaffDTO staffDTO);
 
-//    StaffDTO getStaffByName(String id);
+
+    List<String> getAllStaffNames();
+
+    List<StaffDTO> getStaffListByName(List<String> staffs);
+
+    StaffDTO getStaffByName(String assignedStaff);
 }

@@ -70,6 +70,8 @@ public class CropServiceImpl implements CropService {
             tmpCrop.get().setCrop_image(cropDTO.getCrop_image());
             tmpCrop.get().setCategory(cropDTO.getCategory());
             tmpCrop.get().setSeason(cropDTO.getSeason());
+            tmpCrop.get().setSeason(String.valueOf(cropDTO.getField()));
+            tmpCrop.get().setSeason(String.valueOf(cropDTO.getCrop_code()));
         }
 
     }
