@@ -6,8 +6,10 @@ import com.example.Crop_Monitoring_system.Exception.FieldNotFoundException;
 import com.example.Crop_Monitoring_system.Service.CropService;
 import com.example.Crop_Monitoring_system.customerStatusCode.SelectedErrorStatus;
 import com.example.Crop_Monitoring_system.dao.CropDao;
+import com.example.Crop_Monitoring_system.dao.FieldDao;
 import com.example.Crop_Monitoring_system.dto.CropStatus;
 import com.example.Crop_Monitoring_system.dto.impl.CropDTO;
+import com.example.Crop_Monitoring_system.dto.impl.FieldDTO;
 import com.example.Crop_Monitoring_system.entity.impl.CropEntity;
 import com.example.Crop_Monitoring_system.entity.impl.FieldEntity;
 import com.example.Crop_Monitoring_system.util.Mapping;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,6 +28,8 @@ public class CropServiceImpl implements CropService {
     private Mapping mapping;
     @Autowired
     private CropDao cropDao;
+    @Autowired
+    private FieldDao fieldDao;
     @Override
     public void saveCrop(CropDTO cropDTO) {
         CropEntity cropEntity = cropDao.save(mapping.toCropEntity(cropDTO));
@@ -35,7 +40,24 @@ public class CropServiceImpl implements CropService {
 
     @Override
     public List<CropDTO> getAllCrops() {
-        return mapping.toCropDTOList(cropDao.findAll());
+        List<CropEntity> crops = cropDao.findAll();
+        return crops.stream()
+                .map(crop -> {
+                    CropDTO cropDTO = new CropDTO();
+                    cropDTO.setCrop_code(crop.getCrop_code());
+                    cropDTO.setCrop_image(crop.getCrop_image());
+                    cropDTO.setCommon_name(crop.getCommon_name());
+                    cropDTO.setScientific_name(crop.getScientific_name());
+                    cropDTO.setCategory(crop.getCategory());
+                    cropDTO.setSeason(crop.getSeason());
+                    Optional<FieldEntity> assignedField = fieldDao.
+                            findById(crop.getField().getField_code());
+                    FieldDTO assignedFieldDTO = assignedField.isPresent() ?
+                            mapping.toFieldDTO(assignedField.get()) : null;
+                    cropDTO.setField(assignedFieldDTO);
+                    return cropDTO;
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -70,8 +92,8 @@ public class CropServiceImpl implements CropService {
             tmpCrop.get().setCrop_image(cropDTO.getCrop_image());
             tmpCrop.get().setCategory(cropDTO.getCategory());
             tmpCrop.get().setSeason(cropDTO.getSeason());
-            tmpCrop.get().setSeason(String.valueOf(cropDTO.getField()));
-            tmpCrop.get().setSeason(String.valueOf(cropDTO.getCrop_code()));
+           // tmpCrop.get().setSeason(String.valueOf(cropDTO.getField()));
+          //  tmpCrop.get().setSeason(String.valueOf(cropDTO.getCrop_code()));
         }
 
     }
