@@ -53,4 +53,6 @@ The **Crop Monitoring System** is a web-based application developed for **Green 
 1. Clone this repository:
    ```bash
    git clone https://github.com/amashamaduwanthi/Crop_Monitoring_System.git
+
+   git clone  https://github.com/amashamaduwanthi/crop_management_system_frontend.git
   
