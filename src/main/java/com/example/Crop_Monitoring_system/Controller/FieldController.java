@@ -127,8 +127,8 @@ public class FieldController {
         }
     @GetMapping(value = "getallfieldnames", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<String>> getAllFieldName(){
-        List<String> fieldNames = fieldService.getAllFieldNames();
-        return ResponseEntity.ok(fieldNames);
+        List<String> fieldcodes = fieldService.getAllFieldNames();
+        return ResponseEntity.ok(fieldcodes);
     }
 }
 

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,10 +70,10 @@ public class EquipmentServiceImpl implements EquipmentService {
             tmpEquipment.get().setName(equipmentDTO.getName());
             tmpEquipment.get().setType(equipmentDTO.getType());
             tmpEquipment.get().setStatus(equipmentDTO.getStatus());
-            StaffEntity staffEntity = mapping.toStaffEntity(equipmentDTO.getAssigned_staff());
-            tmpEquipment.get().setAssigned_staff(staffEntity);
-            FieldEntity fieldEntity = mapping.toFieldEntity(equipmentDTO.getAssigned_field());
-            tmpEquipment.get().setAssigned_field(fieldEntity);
+//            StaffEntity staffEntity = mapping.toStaffEntity(equipmentDTO.getAssigned_staff());
+//            tmpEquipment.get().setAssigned_staff(staffEntity);
+//            FieldEntity fieldEntity = mapping.toFieldEntity(equipmentDTO.getAssigned_field());
+//            tmpEquipment.get().setAssigned_field(fieldEntity);
         }
     }
 
