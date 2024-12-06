@@ -36,6 +36,7 @@ public class EquipmentController {
     public EquipmentStatus getSelectedEquipment(@PathVariable ("equipmentId") String equipmentId) {
         return equipmentService.getEquipment(equipmentId);
     }
+    @CrossOrigin(origins = "http://localhost:63342")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<EquipmentDTO> getAllEquipments() {
         return equipmentService.getAllEquipment();

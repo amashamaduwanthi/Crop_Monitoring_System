@@ -30,26 +30,27 @@ public class MonitoringLogController {
     private MonitoringLogService monitoringLogService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> saveLog(@RequestParam ("logDate")String logDate,
+    public ResponseEntity<Void> saveLog(@RequestParam ("logCode")String logCode,
+                                        @RequestParam ("logDate")String logDate,
                                         @RequestParam ("logDetails")String logDetails,
-                                        @RequestPart ("observedImage")MultipartFile observedImage,
-                                        @RequestPart (value = "fields[]",required = false) List<FieldDTO> fields,
-                                        @RequestPart (value = "crops[]",required = false) List<CropDTO> crops,
-                                        @RequestPart (value = "staff[]",required = false) List<StaffDTO> staff
+                                        @RequestPart ("observedImage")MultipartFile observedImage
+//                                        @RequestPart (value = "fields[]",required = false) List<FieldDTO> fields,
+//                                        @RequestPart (value = "crops[]",required = false) List<CropDTO> crops,
+//                                        @RequestPart (value = "staff[]",required = false) List<StaffDTO> staff
                                         ) {
         String base64ObservedImage="";
         try{
             byte[] bytesObservedImage = observedImage.getBytes();
            base64ObservedImage = AppUtil.observedImageOneToBase64(bytesObservedImage);
-            String monitoringId = AppUtil.generateMonitoringId();
+//           String monitoringId = AppUtil.generateMonitoringId();
             MonitoringLogDTO monitoringLogDTO = new MonitoringLogDTO();
-            monitoringLogDTO.setLog_code(monitoringId);
+            monitoringLogDTO.setLog_code(logCode);
             monitoringLogDTO.setLog_date(logDate);
             monitoringLogDTO.setLog_details(logDetails);
             monitoringLogDTO.setObserved_image(base64ObservedImage);
-            monitoringLogDTO.setFields(fields);
-            monitoringLogDTO.setCrops(crops);
-            monitoringLogDTO.setStaff(staff);
+//            monitoringLogDTO.setFields(fields);
+//            monitoringLogDTO.setCrops(crops);
+//            monitoringLogDTO.setStaff(staff);
             monitoringLogService.saveLog(monitoringLogDTO);
             return  new ResponseEntity<>(HttpStatus.CREATED);
         } catch (DataPersistException e) {

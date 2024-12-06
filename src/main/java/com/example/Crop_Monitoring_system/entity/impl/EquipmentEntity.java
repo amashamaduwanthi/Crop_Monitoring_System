@@ -22,7 +22,7 @@ public class EquipmentEntity implements SuperEntity {
     @JoinColumn(name = "id",nullable = true)
     private StaffEntity assigned_staff;
     @ManyToOne
-    @JoinColumn(name = "field_code", foreignKey = @ForeignKey(name = "FK_field_equipment"))
+    @JoinColumn(name = "field_code")
     private FieldEntity assigned_field;
 
 }

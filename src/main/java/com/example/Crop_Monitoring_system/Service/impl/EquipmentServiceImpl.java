@@ -29,7 +29,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     private Mapping mapping;
     @Override
     public void saveEquipment(EquipmentDTO equipmentDTO) {
-        equipmentDTO.setEquipment_id(AppUtil.generateEquipmentId());
+//        equipmentDTO.setEquipment_id(AppUtil.generateEquipmentId());
         EquipmentEntity saveEquipment = equipmentDao.save(mapping.toEquipmentEntity(equipmentDTO));
         if(saveEquipment == null) {
             throw new DataPersistException("Equipment not saved");

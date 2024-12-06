@@ -31,7 +31,7 @@ public class MonitoringLogServiceImpl implements MonitoringLogService {
 
     @Override
     public void saveLog(MonitoringLogDTO monitoringLogDTO) {
-        monitoringLogDTO.setLog_code(AppUtil.generateMonitoringId());
+//        monitoringLogDTO.setLog_code(AppUtil.generateMonitoringId());
         MonitoringLogEntity save = monitoringLogDao.save(mapping.toMonitoringLogEntity(monitoringLogDTO));
         if(save==null){
             throw new DataPersistException("Monitoring Log not saved");

@@ -25,8 +25,8 @@ public class FieldEntity implements SuperEntity {
     private String field_image1;
     @Column(columnDefinition = "LONGTEXT")
     private String field_image2;
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL)
+
     private List<CropEntity> crops;
     // List of equipment related to the field, cascading delete included
 //    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
